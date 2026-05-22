@@ -18,7 +18,6 @@ window.addEventListener('load', () => {
       clearInterval(interval);
       setTimeout(() => {
         loader.classList.add('hidden');
-        document.body.style.cursor = 'none';
         startRevealObserver();
         animateCounters();
       }, 400);
@@ -32,41 +31,44 @@ window.addEventListener('load', () => {
 // ===== CUSTOM CURSOR =====
 const cursor = document.getElementById('cursor');
 const follower = document.getElementById('cursorFollower');
+const canUseCustomCursor = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 let mouseX = 0, mouseY = 0;
 let followerX = 0, followerY = 0;
 
-document.addEventListener('mousemove', (e) => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  cursor.style.left = mouseX + 'px';
-  cursor.style.top = mouseY + 'px';
-});
+if (canUseCustomCursor && cursor && follower) {
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cursor.style.left = mouseX + 'px';
+    cursor.style.top = mouseY + 'px';
+  });
 
-function animateFollower() {
-  followerX += (mouseX - followerX) * 0.1;
-  followerY += (mouseY - followerY) * 0.1;
-  follower.style.left = followerX + 'px';
-  follower.style.top = followerY + 'px';
-  requestAnimationFrame(animateFollower);
+  function animateFollower() {
+    followerX += (mouseX - followerX) * 0.1;
+    followerY += (mouseY - followerY) * 0.1;
+    follower.style.left = followerX + 'px';
+    follower.style.top = followerY + 'px';
+    requestAnimationFrame(animateFollower);
+  }
+  animateFollower();
+
+  document.querySelectorAll('a, button, .product-card, .tab').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '12px';
+      cursor.style.height = '12px';
+      follower.style.width = '50px';
+      follower.style.height = '50px';
+      follower.style.borderColor = 'rgba(212,175,55,0.45)';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '8px';
+      cursor.style.height = '8px';
+      follower.style.width = '36px';
+      follower.style.height = '36px';
+      follower.style.borderColor = 'rgba(212,175,55,0.6)';
+    });
+  });
 }
-animateFollower();
-
-document.querySelectorAll('a, button, .product-card, .tab').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    cursor.style.width = '12px';
-    cursor.style.height = '12px';
-    follower.style.width = '56px';
-    follower.style.height = '56px';
-    follower.style.borderColor = 'rgba(212,175,55,0.5)';
-  });
-  el.addEventListener('mouseleave', () => {
-    cursor.style.width = '8px';
-    cursor.style.height = '8px';
-    follower.style.width = '36px';
-    follower.style.height = '36px';
-    follower.style.borderColor = 'rgba(212,175,55,0.6)';
-  });
-});
 
 // ===== NAVBAR SCROLL =====
 const navbar = document.getElementById('navbar');
@@ -204,7 +206,6 @@ document.querySelectorAll('.wishlist-icon').forEach(btn => {
     } else {
       wishlisted.add(id);
       btn.classList.add('active');
-      btn.querySelector('svg').setAttribute('fill', '#e74c6f');
       showToast('❤️ Added to wishlist!');
     }
   });
@@ -382,9 +383,9 @@ function nextSlide() {
   goToSlide(currentSlide);
 }
 
-autoSlide = setInterval(nextSlide, 4000);
+autoSlide = setInterval(nextSlide, 6500);
 track.addEventListener('mouseenter', () => clearInterval(autoSlide));
-track.addEventListener('mouseleave', () => { autoSlide = setInterval(nextSlide, 4000); });
+track.addEventListener('mouseleave', () => { autoSlide = setInterval(nextSlide, 6500); });
 
 // ===== CONTACT FORM =====
 document.getElementById('contactForm').addEventListener('submit', (e) => {
@@ -438,17 +439,17 @@ window.addEventListener('scroll', () => {
 function createParticles() {
   const container = document.getElementById('particles');
   if (!container) return;
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 12; i++) {
     const p = document.createElement('div');
     p.style.cssText = `
       position:absolute;
       width:${Math.random() * 3 + 1}px;
       height:${Math.random() * 3 + 1}px;
-      background:rgba(212,175,55,${Math.random() * 0.4 + 0.1});
+      background:rgba(212,175,55,${Math.random() * 0.16 + 0.06});
       border-radius:50%;
       left:${Math.random() * 100}%;
       top:${Math.random() * 100}%;
-      animation:particleFloat ${Math.random() * 8 + 6}s ease-in-out infinite;
+      animation:particleFloat ${Math.random() * 12 + 14}s ease-in-out infinite;
       animation-delay:${Math.random() * 4}s;
     `;
     container.appendChild(p);
@@ -456,9 +457,8 @@ function createParticles() {
   const style = document.createElement('style');
   style.textContent = `
     @keyframes particleFloat {
-      0%,100%{transform:translate(0,0);opacity:0.3}
-      25%{transform:translate(${Math.random()*30-15}px,${Math.random()*30-15}px);opacity:0.8}
-      75%{transform:translate(${Math.random()*30-15}px,${Math.random()*30-15}px);opacity:0.5}
+      0%,100%{transform:translate(0,0);opacity:0.2}
+      50%{transform:translate(${Math.random()*14-7}px,${Math.random()*14-7}px);opacity:0.42}
     }
   `;
   document.head.appendChild(style);
