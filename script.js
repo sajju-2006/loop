@@ -99,6 +99,7 @@ let menuOpen = false;
 menuBtn.addEventListener('click', () => {
   menuOpen = !menuOpen;
   mobileMenu.classList.toggle('open', menuOpen);
+  menuBtn.setAttribute('aria-expanded', String(menuOpen));
   const spans = menuBtn.querySelectorAll('span');
   if (menuOpen) {
     spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
@@ -113,6 +114,7 @@ document.querySelectorAll('.mob-link').forEach(link => {
   link.addEventListener('click', () => {
     menuOpen = false;
     mobileMenu.classList.remove('open');
+    menuBtn.setAttribute('aria-expanded', 'false');
     const spans = menuBtn.querySelectorAll('span');
     spans.forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
   });
@@ -383,9 +385,12 @@ function nextSlide() {
   goToSlide(currentSlide);
 }
 
-autoSlide = setInterval(nextSlide, 6500);
-track.addEventListener('mouseenter', () => clearInterval(autoSlide));
-track.addEventListener('mouseleave', () => { autoSlide = setInterval(nextSlide, 6500); });
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (!reduceMotion) {
+  autoSlide = setInterval(nextSlide, 6500);
+  track.addEventListener('mouseenter', () => clearInterval(autoSlide));
+  track.addEventListener('mouseleave', () => { autoSlide = setInterval(nextSlide, 6500); });
+}
 
 // ===== CONTACT FORM =====
 document.getElementById('contactForm').addEventListener('submit', (e) => {
@@ -438,7 +443,8 @@ window.addEventListener('scroll', () => {
 // ===== PARTICLES (Hero Background) =====
 function createParticles() {
   const container = document.getElementById('particles');
-  if (!container) return;
+  const smallScreen = window.matchMedia('(max-width: 768px)').matches;
+  if (!container || reduceMotion || smallScreen) return;
   for (let i = 0; i < 12; i++) {
     const p = document.createElement('div');
     p.style.cssText = `
@@ -483,6 +489,8 @@ document.addEventListener('keydown', (e) => {
     if (menuOpen) {
       menuOpen = false;
       mobileMenu.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+      menuBtn.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
     }
   }
 });

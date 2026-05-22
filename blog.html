@@ -22,8 +22,12 @@
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     html { scroll-behavior:smooth; }
     body { font-family:var(--font-body); background:var(--white); color:#222; overflow-x:hidden; line-height:1.6; }
-    img { width:100%; display:block; }
+    img { width:100%; height:auto; display:block; }
     a { text-decoration:none; }
+    a:focus-visible, button:focus-visible, input:focus-visible {
+      outline:2px solid rgba(212,175,55,0.75);
+      outline-offset:3px;
+    }
 
     /* NAVBAR */
     .navbar {
@@ -162,6 +166,14 @@
       .footer-mini { align-items:flex-start; flex-direction:column; }
       .footer-mini a { margin:0 16px 0 0; }
     }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior:auto; }
+      *, *::before, *::after {
+        transition-duration:0.01ms !important;
+        animation-duration:0.01ms !important;
+        animation-iteration-count:1 !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -203,7 +215,7 @@
     <!-- FEATURED POST -->
     <div class="blog-card featured">
       <div class="blog-img">
-        <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop" alt="Makeup Tips">
+        <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop" alt="Makeup Tips" loading="lazy" decoding="async">
         <span class="blog-tag">Featured</span>
       </div>
       <div class="blog-content">
@@ -226,7 +238,7 @@
     <!-- POST 2 -->
     <div class="blog-card">
       <div class="blog-img">
-        <img src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?q=80&w=800&auto=format&fit=crop" alt="Skincare Routine">
+        <img src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?q=80&w=800&auto=format&fit=crop" alt="Skincare Routine" loading="lazy" decoding="async">
         <span class="blog-tag">Skincare</span>
       </div>
       <div class="blog-content">
@@ -243,7 +255,7 @@
     <!-- POST 3 -->
     <div class="blog-card">
       <div class="blog-img">
-        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop" alt="Beauty Trends">
+        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop" alt="Beauty Trends" loading="lazy" decoding="async">
         <span class="blog-tag">Trends</span>
       </div>
       <div class="blog-content">
@@ -260,7 +272,7 @@
     <!-- POST 4 -->
     <div class="blog-card">
       <div class="blog-img">
-        <img src="https://images.unsplash.com/photo-1526045612212-70caf35c14df?q=80&w=800&auto=format&fit=crop" alt="Night Routine">
+        <img src="https://images.unsplash.com/photo-1526045612212-70caf35c14df?q=80&w=800&auto=format&fit=crop" alt="Night Routine" loading="lazy" decoding="async">
         <span class="blog-tag">Tutorial</span>
       </div>
       <div class="blog-content">
@@ -277,7 +289,7 @@
     <!-- POST 5 -->
     <div class="blog-card">
       <div class="blog-img">
-        <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?q=80&w=800&auto=format&fit=crop" alt="Luxury Fashion">
+        <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?q=80&w=800&auto=format&fit=crop" alt="Luxury Fashion" loading="lazy" decoding="async">
         <span class="blog-tag">Lifestyle</span>
       </div>
       <div class="blog-content">
