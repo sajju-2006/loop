@@ -137,7 +137,7 @@ function startRevealObserver() {
 
 // ===== COUNTER ANIMATION =====
 function animateCounters() {
-  document.querySelectorAll('.stat-num, .counter').forEach(el => {
+  document.querySelectorAll('.counter').forEach(el => {
     const target = parseInt(el.dataset.count);
     let current = 0;
     const increment = target / 60;
@@ -439,37 +439,6 @@ window.addEventListener('scroll', () => {
     }
   });
 });
-
-// ===== PARTICLES (Hero Background) =====
-function createParticles() {
-  const container = document.getElementById('particles');
-  const smallScreen = window.matchMedia('(max-width: 768px)').matches;
-  if (!container || reduceMotion || smallScreen) return;
-  for (let i = 0; i < 12; i++) {
-    const p = document.createElement('div');
-    p.style.cssText = `
-      position:absolute;
-      width:${Math.random() * 3 + 1}px;
-      height:${Math.random() * 3 + 1}px;
-      background:rgba(212,175,55,${Math.random() * 0.16 + 0.06});
-      border-radius:50%;
-      left:${Math.random() * 100}%;
-      top:${Math.random() * 100}%;
-      animation:particleFloat ${Math.random() * 12 + 14}s ease-in-out infinite;
-      animation-delay:${Math.random() * 4}s;
-    `;
-    container.appendChild(p);
-  }
-  const style = document.createElement('style');
-  style.textContent = `
-    @keyframes particleFloat {
-      0%,100%{transform:translate(0,0);opacity:0.2}
-      50%{transform:translate(${Math.random()*14-7}px,${Math.random()*14-7}px);opacity:0.42}
-    }
-  `;
-  document.head.appendChild(style);
-}
-createParticles();
 
 // ===== NEWSLETTER =====
 document.querySelector('.newsletter button')?.addEventListener('click', () => {
